@@ -1,51 +1,41 @@
 Student Attendance Management System (SAMS) - MERN
 A modern MERN Stack web application for managing student attendance using Facial Recognition with webcam support.
-Built with Express.js, MongoDB, EJS, Bootstrap 5, and face-api.js (TensorFlow.js).
+Built with Express.js, MongoDB, EJS, Bootstrap 5, and face-api.js.
 
 ✨ Features
 
 Facial Recognition Attendance – Mark attendance using webcam (face-api.js)
 Student Database – Add, edit, delete, and manage students with photos
-Attendance Log – View, filter, and export attendance records (CSV)
+Attendance Log – View, filter, and export attendance records as CSV
 Role-Based Login – Separate access for Admin and Faculty
-Student Profile – Individual attendance history and statistics
-Responsive Design – Clean and modern UI with Bootstrap
+Student Profile – View individual attendance history and percentage
+Responsive UI – Clean and modern design using Bootstrap 5
 
 
 🖥️ Demo Credentials
-
 RoleUsernamePasswordAdminadminadminFacultyfacultyfaculty
 
 🚀 Tech Stack
 
-Frontend: HTML, EJS, Bootstrap 5, JavaScript
+Frontend: EJS, Bootstrap 5, JavaScript
 Backend: Node.js, Express.js
 Database: MongoDB
 Facial Recognition: face-api.js + TensorFlow.js
-Image Processing: Sharp.js
-Session Management: express-session
-
-
-📸 Screenshots
-Attendance Taking (Facial Recognition)
-
-Attendance Log
-
-Student Database
+Others: Sharp.js, express-session
 
 
 🛠️ Setup Instructions
 
-Clone the repositoryBashgit clone https://github.com/yourusername/Student-Attendance-Management-System-MERN.git
+Clone the repositoryBashgit clone https://github.com/SumitKumarSoftwareEngineer/Student-Attendance-Management-System-MERN.git
 cd Student-Attendance-Management-System-MERN
 Install DependenciesBashcd backend
 npm install
-Setup Environment Variables
-Create .env file in backend folder:envCONNECTIONSTRING=mongodb://127.0.0.1:27017/yourdbname
+Create Environment Variable
+Create a .env file inside the backend folder:envCONNECTIONSTRING=mongodb://127.0.0.1:27017/sams
 PORT=3000
-Start MongoDB (Make sure MongoDB is running locally)
+Start MongoDB (Local MongoDB should be running)
 Run the ApplicationBashnpm start
-Open browser and go to http://localhost:3000
+Open your browser and go to http://localhost:3000
 
 
 📁 Project Structure
@@ -54,7 +44,7 @@ textbackend/
 ├── package.json
 frontend/
 ├── views/
-│   ├── partials/header.ejs
+│   ├── partials/
 │   ├── login.ejs
 │   ├── admin.ejs
 │   ├── attendance-log.ejs
@@ -65,8 +55,10 @@ public/
 
 🔮 Future Enhancements
 
+Auto check-out / logout feature
 Cancel attendance option
-Auto check-out (logout) feature
-Individual student detailed reports
+Detailed individual student reports
 Manual attendance by admin
-Better face recognition accuracy
+
+
+Developed by Sumit Kumar
