@@ -1,31 +1,72 @@
-# Student Attendance Management System (MERN Version)
-Student attendance management system for the browser using face recognition on video input from user's webcam with face-api.js by @justadudewhohacks (JavaScript face recognition API for the browser and nodejs implemented on top of tensorflow.js core, more details can be found here https://github.com/justadudewhohacks/face-api.js/)
-This is a MERN stack web development project that builds on my previous work in https://github.com/jolwnn/Student-Attendance-Management-System. (Bootstrap was also implemented).
+Student Attendance Management System (SAMS) - MERN
+A modern MERN Stack web application for managing student attendance using Facial Recognition with webcam support.
+Built with Express.js, MongoDB, EJS, Bootstrap 5, and face-api.js (TensorFlow.js).
 
-You can test SAMS with images of Harry, Hermione, and Ron from Harry Potter, or by putting your own photos in. Note: You will have to set up your own MongoDB database and connect to it in the server.js file.
+✨ Features
 
-### Attendance Taking using Facial Recognition
-<img width="600" alt="image" src="https://github.com/jolwnn/Student-Attendance-Management-System-MERN/assets/85361959/87c74c52-6bbf-4ef7-a718-1cce75484d7c">
-
-### Attendance Log
-<img width="600" alt="image" src="https://github.com/jolwnn/Student-Attendance-Management-System-MERN/assets/85361959/cbd0f1e9-c25c-4181-8031-98b53e41201f">
-
-### Student Database
-<img width="600" alt="image" src="https://github.com/jolwnn/Student-Attendance-Management-System-MERN/assets/85361959/15b23923-6f64-4276-82c6-a8f30732c8e6">
-<img width="600" alt="image" src="https://github.com/jolwnn/Student-Attendance-Management-System-MERN/assets/85361959/c6444d3a-880b-4166-a815-e97c37a22ed5">
-
-Watch a video demonstration here:
-https://drive.google.com/file/d/1ONHOMKZ6h3T7in4Qv3VQl6rOKbkNKLtY/view?usp=sharing 
+Facial Recognition Attendance – Mark attendance using webcam (face-api.js)
+Student Database – Add, edit, delete, and manage students with photos
+Attendance Log – View, filter, and export attendance records (CSV)
+Role-Based Login – Separate access for Admin and Faculty
+Student Profile – Individual attendance history and statistics
+Responsive Design – Clean and modern UI with Bootstrap
 
 
-Upcoming updates to this project:
+🖥️ Demo Credentials
 
-Next Update:
+RoleUsernamePasswordAdminadminadminFacultyfacultyfaculty
 
-- Add option to cancel instead of "Confirm Attendance"
-- Log-in and log-out features, if student already took attendance, next detection will mean the student logs out.
-- Password to access database
+🚀 Tech Stack
 
-(Much) Later Updates:
-- Able to see each students attendance record through the database
-- Admin able to manually take attendance for a student, given a password
+Frontend: HTML, EJS, Bootstrap 5, JavaScript
+Backend: Node.js, Express.js
+Database: MongoDB
+Facial Recognition: face-api.js + TensorFlow.js
+Image Processing: Sharp.js
+Session Management: express-session
+
+
+📸 Screenshots
+Attendance Taking (Facial Recognition)
+
+Attendance Log
+
+Student Database
+
+
+🛠️ Setup Instructions
+
+Clone the repositoryBashgit clone https://github.com/yourusername/Student-Attendance-Management-System-MERN.git
+cd Student-Attendance-Management-System-MERN
+Install DependenciesBashcd backend
+npm install
+Setup Environment Variables
+Create .env file in backend folder:envCONNECTIONSTRING=mongodb://127.0.0.1:27017/yourdbname
+PORT=3000
+Start MongoDB (Make sure MongoDB is running locally)
+Run the ApplicationBashnpm start
+Open browser and go to http://localhost:3000
+
+
+📁 Project Structure
+textbackend/
+├── server.js
+├── package.json
+frontend/
+├── views/
+│   ├── partials/header.ejs
+│   ├── login.ejs
+│   ├── admin.ejs
+│   ├── attendance-log.ejs
+│   └── ...
+public/
+├── uploaded-photos/
+└── ...
+
+🔮 Future Enhancements
+
+Cancel attendance option
+Auto check-out (logout) feature
+Individual student detailed reports
+Manual attendance by admin
+Better face recognition accuracy
