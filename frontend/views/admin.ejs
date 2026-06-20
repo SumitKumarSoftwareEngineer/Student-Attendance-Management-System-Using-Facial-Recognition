@@ -1,0 +1,303 @@
+<%- include("partials/header") %>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+  /* Page Specific Layout Optimizations */
+  .admin-page-container {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #f8f9fa;
+    min-height: calc(100vh - 70px);
+  }
+  .student-photo-wrapper {
+    height: 260px;
+    overflow: hidden;
+    background-color: #e9ecef;
+  }
+  .student-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .student-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: none !important;
+  }
+  .student-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08) !important;
+  }
+  .student-card:hover .student-photo {
+    transform: scale(1.02);
+  }
+</style>
+
+<div class="admin-page-container py-5">
+  <div class="container">
+    
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4">
+      <div>
+        <h2 class="fw-bold text-dark mb-1">Manage Students</h2>
+        <p class="text-muted small mb-0">Add, view, update, or remove registered student profiles</p>
+      </div>
+      <a href="/studentdatabase" class="btn btn-outline-secondary btn-sm px-3 rounded-2 fw-medium shadow-sm">
+         Back to Database
+      </a>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-3 mb-5">
+      <div class="card-header bg-dark text-white py-3 border-0">
+        <h5 class="mb-0 fw-semibold text-uppercase tracking-wider small">Register New Student</h5>
+      </div>
+      <div class="card-body p-4">
+        <form id="create-student-form" enctype="multipart/form-data">
+          <div class="row g-3">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2.5">
+              <label class="form-label text-secondary small fw-semibold">Photo</label>
+              <input id="create-photo" name="photo" type="file" class="form-control form-control-sm bg-light" accept="image/*" />
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+              <label class="form-label text-secondary small fw-semibold">Student Name</label>
+              <input id="create-name" name="name" type="text" class="form-control form-control-sm bg-light" placeholder="Enter full name" required />
+            </div>
+            <div class="col-12 col-sm-4 col-md-4 col-lg-2.5">
+              <label class="form-label text-secondary small fw-semibold">Course</label>
+              <input id="create-course" name="course" type="text" class="form-control form-control-sm bg-light" placeholder="e.g. Btech, BCA" required />
+            </div>
+            <div class="col-12 col-sm-4 col-md-6 col-lg-2">
+              <label class="form-label text-secondary small fw-semibold">Branch</label>
+              <input id="create-branch" name="branch" type="text" class="form-control form-control-sm bg-light" placeholder="e.g. CSE, ECE" required />
+            </div>
+            <div class="col-12 col-sm-4 col-md-6 col-lg-2">
+              <label class="form-label text-secondary small fw-semibold">Semester</label>
+              <input id="create-semester" name="semester" type="text" class="form-control form-control-sm bg-light" placeholder="e.g. 6" required />
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary mt-4 px-4 fw-semibold small shadow-sm rounded-2">
+             Create Student
+          </button>
+          <p id="create-message" class="mt-3 small mb-0"></p>
+        </form>
+      </div>
+    </div>
+
+    <h4 class="fw-bold text-dark mb-4">
+      All Registered Students (<span id="student-count" class="text-primary"><%= students.length %></span>)
+    </h4>
+    
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4" id="student-grid">
+      <% students.forEach(function(student) { %>
+        <div class="col">
+          <div class="card student-card h-100 shadow-sm border-0 rounded-3 overflow-hidden" data-id="<%= student._id %>">
+            <div class="student-photo-wrapper position-relative">
+              <img
+                src="<%= student.photo ? '/uploaded-photos/' + student.photo : '/fallback.png' %>"
+                class="student-photo"
+                alt="<%= student.name %>"
+              />
+            </div>
+            
+            <div class="card-body view-mode d-flex flex-column p-4">
+              <h5 class="student-name card-title fw-bold text-dark mb-1"><%= student.name %></h5>
+              <p class="text-muted small student-course mb-4">
+                <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-10 py-1.5 px-2 rounded-2"><%= student.course %></span>
+                <span class="mx-1">•</span> <%= student.branch || '—' %> <span class="mx-1">•</span> Sem <%= student.semester || '—' %>
+              </p>
+              
+              <div class="d-flex gap-2 mt-auto pt-2 border-top border-light">
+                <button class="btn btn-sm btn-light text-primary fw-medium edit-btn flex-grow-1">Edit</button>
+                <button class="btn btn-sm btn-light text-danger fw-medium delete-btn flex-grow-1">Delete</button>
+              </div>
+            </div>
+
+            <div class="card-body edit-mode p-4" style="display: none; background-color: #fafafa;">
+              <form class="edit-student-form" enctype="multipart/form-data">
+                <div class="mb-3">
+                  <label class="form-label text-secondary small fw-medium mb-1">Update Photo</label>
+                  <input type="file" name="photo" class="form-control form-control-sm edit-photo" accept="image/*" />
+                </div>
+                <div class="row g-2">
+                  <div class="col-12">
+                    <input type="text" name="name" class="form-control form-control-sm edit-name" value="<%= student.name %>" placeholder="Name" required />
+                  </div>
+                  <div class="col-12">
+                    <input type="text" name="course" class="form-control form-control-sm edit-course" value="<%= student.course %>" placeholder="Course" required />
+                  </div>
+                  <div class="col-6">
+                    <input type="text" name="branch" class="form-control form-control-sm edit-branch" value="<%= student.branch || '' %>" placeholder="Branch" required />
+                  </div>
+                  <div class="col-6">
+                    <input type="text" name="semester" class="form-control form-control-sm edit-semester" value="<%= student.semester || '' %>" placeholder="Semester" required />
+                  </div>
+                </div>
+                <div class="d-flex gap-2 mt-4">
+                  <button type="submit" class="btn btn-sm btn-success flex-grow-1 fw-medium">Save Changes</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary cancel-btn flex-grow-1 fw-medium">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+    
+  </div>
+</div>
+
+<%- include("partials/footer") %>
+
+<script>
+// ==================== Create Student Operations ====================
+const createForm = document.getElementById("create-student-form");
+const createMessage = document.getElementById("create-message");
+const studentGrid = document.getElementById("student-grid");
+
+createForm.addEventListener("submit", async function (e) {
+  e.preventDefault();
+  createMessage.className = "mt-3 small fw-semibold text-muted";
+  createMessage.textContent = "Creating profile...";
+
+  const formData = new FormData(createForm);
+
+  try {
+    const response = await fetch("/create-student", {
+      method: "POST",
+      body: formData
+    });
+
+    if (!response.ok) throw new Error("Create failed");
+
+    const newStudent = await response.json();
+    
+    studentGrid.insertAdjacentHTML("beforeend", studentCardHTML(newStudent));
+    createForm.reset();
+    createMessage.className = "mt-3 small fw-semibold text-success";
+    createMessage.textContent = "✅ Student profile created successfully!";
+    
+    document.getElementById("student-count").textContent = 
+      parseInt(document.getElementById("student-count").textContent) + 1;
+  } catch (error) {
+    console.error(error);
+    createMessage.className = "mt-3 small fw-semibold text-danger";
+    createMessage.textContent = "❌ Error: Could not save student profile.";
+  }
+});
+
+function studentCardHTML(student) {
+  const photoSrc = student.photo ? "/uploaded-photos/" + student.photo : "/fallback.png";
+  return `
+    <div class="col">
+      <div class="card student-card h-100 shadow-sm border-0 rounded-3 overflow-hidden" data-id="${student._id}">
+        <div class="student-photo-wrapper position-relative">
+          <img src="${photoSrc}" class="student-photo" alt="${student.name}">
+        </div>
+        <div class="card-body view-mode d-flex flex-column p-4">
+          <h5 class="student-name card-title fw-bold text-dark mb-1">${student.name}</h5>
+          <p class="text-muted small student-course mb-4">
+            <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-10 py-1.5 px-2 rounded-2">${student.course}</span>
+            <span class="mx-1">•</span> ${student.branch || '—'} <span class="mx-1">•</span> Sem ${student.semester || '—'}
+          </p>
+          <div class="d-flex gap-2 mt-auto pt-2 border-top border-light">
+            <button class="btn btn-sm btn-light text-primary fw-medium edit-btn flex-grow-1">Edit</button>
+            <button class="btn btn-sm btn-light text-danger fw-medium delete-btn flex-grow-1">Delete</button>
+          </div>
+        </div>
+        <div class="card-body edit-mode p-4" style="display: none; background-color: #fafafa;">
+          <form class="edit-student-form" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label class="form-label text-secondary small fw-medium mb-1">Update Photo</label>
+              <input type="file" name="photo" class="form-control form-control-sm edit-photo" accept="image/*">
+            </div>
+            <div class="row g-2">
+              <div class="col-12"><input type="text" name="name" class="form-control form-control-sm edit-name" value="${student.name}" placeholder="Name" required></div>
+              <div class="col-12"><input type="text" name="course" class="form-control form-control-sm edit-course" value="${student.course}" placeholder="Course" required></div>
+              <div class="col-6"><input type="text" name="branch" class="form-control form-control-sm edit-branch" value="${student.branch || ''}" placeholder="Branch" required></div>
+              <div class="col-6"><input type="text" name="semester" class="form-control form-control-sm edit-semester" value="${student.semester || ''}" placeholder="Semester" required></div>
+            </div>
+            <div class="d-flex gap-2 mt-4">
+              <button type="submit" class="btn btn-sm btn-success flex-grow-1 fw-medium">Save</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary cancel-btn flex-grow-1 fw-medium">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Exact original click mechanics to prevent BSON parameter binding loss
+document.addEventListener("click", async function (e) {
+  const card = e.target.closest(".student-card");
+  if (!card) return;
+
+  const id = card.dataset.id;
+  const viewMode = card.querySelector(".view-mode");
+  const editMode = card.querySelector(".edit-mode");
+
+  if (e.target.classList.contains("edit-btn")) {
+    viewMode.style.display = "none";
+    editMode.style.display = "block";
+  }
+
+  if (e.target.classList.contains("cancel-btn")) {
+    editMode.style.display = "none";
+    viewMode.style.display = "block";
+  }
+
+  if (e.target.classList.contains("delete-btn")) {
+    if (confirm("Are you sure you want to delete this student permanently?")) {
+      try {
+        const response = await fetch(`/student/${id}`, { method: "DELETE" });
+        if (response.ok) {
+          card.parentElement.remove();
+          document.getElementById("student-count").textContent = 
+            parseInt(document.getElementById("student-count").textContent) - 1;
+        }
+      } catch (error) {
+        alert("Failed to delete student.");
+      }
+    }
+  }
+});
+
+document.addEventListener("submit", async function (e) {
+  if (!e.target.classList.contains("edit-student-form")) return;
+  e.preventDefault();
+
+  const form = e.target;
+  const card = form.closest(".student-card");
+  const id = card.dataset.id;
+  const formData = new FormData(form);
+  formData.append("_id", id);
+
+  try {
+    const response = await fetch("/update-student", {
+      method: "POST",
+      body: formData
+    });
+
+    if (!response.ok) throw new Error("Update failed");
+
+    const newPhoto = await response.text();
+    const updatedName = form.querySelector(".edit-name").value;
+    const updatedCourse = form.querySelector(".edit-course").value;
+    const updatedBranch = form.querySelector(".edit-branch").value;
+    const updatedSemester = form.querySelector(".edit-semester").value;
+
+    card.querySelector(".student-name").textContent = updatedName;
+    card.querySelector(".student-course").innerHTML = 
+      `<span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-10 py-1.5 px-2 rounded-2">${updatedCourse}</span><span class="mx-1">•</span> ${updatedBranch || '—'} <span class="mx-1">•</span> Sem ${updatedSemester || '—'}`;
+
+    if (newPhoto && newPhoto !== "false") {
+      card.querySelector(".student-photo").src = "/uploaded-photos/" + newPhoto;
+    }
+
+    card.querySelector(".edit-mode").style.display = "none";
+    card.querySelector(".view-mode").style.display = "block";
+  } catch (error) {
+    alert("Failed to update student.");
+  }
+});
+</script>

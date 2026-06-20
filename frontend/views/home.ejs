@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAMS - AI-Powered Student Attendance Management System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      background-color: #f8fafc;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.03) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(15, 23, 42, 0.02) 0px, transparent 50%),
+        linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(241,245,249,1) 100%);
+      background-attachment: fixed;
+      color: #1e293b;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      letter-spacing: -0.01em;
+    }
+    
+    /* Executive Premium Mesh Header Background */
+    .hero-premium {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%);
+      box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.3), 0 20px 40px rgba(15, 23, 42, 0.1);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-premium::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(to bottom, transparent 0%, rgba(15, 23, 42, 0.4) 100%),
+                  url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+      opacity: 0.15;
+      mix-blend-mode: overlay;
+    }
+
+    .glass-inner {
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Professional Structural Cards */
+    .premium-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(226, 232, 240, 0.8) !important;
+      border-radius: 20px !important;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .premium-card:hover {
+      transform: translateY(-4px);
+      background: #ffffff;
+      border-color: rgba(37, 99, 235, 0.35) !important;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02) !important;
+    }
+
+    /* Dual-Ring Icon Wrappers */
+    .icon-wrapper {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      transition: all 0.3s ease;
+    }
+    
+    .premium-card:hover .icon-wrapper {
+      transform: scale(1.08) rotate(3deg);
+    }
+
+    /* Custom Informational Timeline */
+    .step-timeline-item {
+      position: relative;
+      padding-left: 2.8rem;
+    }
+
+    .step-timeline-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 16px;
+      top: 36px;
+      bottom: -16px;
+      width: 2px;
+      background: #e2e8f0;
+    }
+
+    .step-number {
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #ffffff;
+      color: #3b82f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      border: 2px solid #e2e8f0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      transition: all 0.3s ease;
+    }
+
+    .step-timeline-item:hover .step-number {
+      background: #2563eb;
+      color: #ffffff;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.15);
+    }
+
+    .premium-badge {
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 8px;
+    }
+
+    .tracking-wider-custom {
+      letter-spacing: 0.06em;
+      font-size: 0.8rem;
+    }
+
+    .btn-premium-primary {
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+      transition: all 0.2s ease;
+    }
+
+    .btn-premium-primary:hover {
+      background: #1d4ed8;
+      color: #ffffff;
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.25);
+    }
+    
+    .hover-scale {
+      transition: transform 0.2s ease;
+    }
+    .hover-scale:hover {
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body>
+  
+  <%- include("partials/header") %>
+
+  <main class="container my-5 py-2" style="max-width: 1200px;">
+    
+    <div class="p-4 p-md-5 mb-5 text-white rounded-5 hero-premium animate__animated animate__fadeIn">
+      <div class="glass-inner p-4 p-md-5">
+        <div class="row align-items-center py-2">
+          <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="badge bg-primary bg-opacity-20 text-info premium-badge border border-info border-opacity-25">UCET Department </span>
+            </div>
+            <h1 class="display-6 fw-extrabold mb-2 text-white tracking-tight">
+              Student Attendance Management System (SAMS)
+            </h1>
+            <p class="text-white text-opacity-75 mb-4 lh-base small text-uppercase tracking-wider">
+              University College of Engineering & Technology (UCET)<br>
+              Vinoba Bhave University, Hazaribag
+            </p>
+            <p class="fs-6 text-white text-opacity-85 mb-0 lh-lg" style="max-width: 750px;">
+              SAMS is an automated, contactless administration portal engineered to eliminate traditional, inefficient class logging. By moving computer vision workflows entirely into local browser runtime execution layers, the ecosystem ensures total user privacy protection without uploading raw, confidential images to cloud instances.
+            </p>
+          </div>
+          <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+            <a href="/take-attendance" class="btn btn-white bg-white text-dark btn-lg fw-bold px-4 py-3 rounded-3 shadow-sm border-0 d-inline-flex align-items-center gap-2 hover-scale">
+              <i class="fa-solid fa-expand text-primary fs-5"></i> Initialize Vision Node
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="mb-5">
+      <div class="row g-4">
+        <div class="col-md-3 col-6">
+          <div class="card h-100 p-2 premium-card text-center">
+            <div class="card-body py-4">
+              <div class="text-primary mb-3 mx-auto d-flex align-items-center justify-content-center bg-primary bg-opacity-10 rounded-circle" style="width: 52px; height: 52px;">
+                <i class="fa-solid fa-graduation-cap fs-4"></i>
+              </div>
+              <h2 class="fw-extrabold mb-1 text-dark" id="totalStudents">0</h2>
+              <p class="text-muted tracking-wider-custom text-uppercase small fw-bold mb-0">Registered Roster</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="card h-100 p-2 premium-card text-center">
+            <div class="card-body py-4">
+              <div class="text-success mb-3 mx-auto d-flex align-items-center justify-content-center bg-success bg-opacity-10 rounded-circle" style="width: 52px; height: 52px;">
+                <i class="fa-solid fa-circle-user fs-4"></i>
+              </div>
+              <h2 class="fw-extrabold mb-1 text-success" id="presentToday">0</h2>
+              <p class="text-muted tracking-wider-custom text-uppercase small fw-bold mb-0">Verified Present</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="card h-100 p-2 premium-card text-center">
+            <div class="card-body py-4">
+              <div class="text-danger mb-3 mx-auto d-flex align-items-center justify-content-center bg-danger bg-opacity-10 rounded-circle" style="width: 52px; height: 52px;">
+                <i class="fa-solid fa-user-slash fs-4"></i>
+              </div>
+              <h2 class="fw-extrabold mb-1 text-danger" id="absentToday">0</h2>
+              <p class="text-muted tracking-wider-custom text-uppercase small fw-bold mb-0">Roster Absentees</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="card h-100 p-2 premium-card text-center">
+            <div class="card-body py-4">
+              <div class="text-info mb-3 mx-auto d-flex align-items-center justify-content-center bg-info bg-opacity-10 rounded-circle" style="width: 52px; height: 52px;">
+                <i class="fa-solid fa-chart-line fs-4"></i>
+              </div>
+              <h2 class="fw-extrabold mb-1 text-info" id="attendanceRate">0%</h2>
+              <p class="text-muted tracking-wider-custom text-uppercase small fw-bold mb-0">Efficacy Rating</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+          <h2 class="fw-extrabold text-dark tracking-wider-custom text-uppercase m-0" style="font-size: 1.1rem;">
+            Core Operations Gateway
+          </h2>
+          <small class="text-muted">Select an administrative terminal module to access telemetry metrics</small>
+        </div>
+        <span class="badge bg-white text-dark border rounded-pill px-3 py-2 fw-semibold shadow-sm small d-flex align-items-center gap-2">
+          <span class="d-inline-block rounded-circle bg-success animate-pulse" style="width:6px; height:6px;"></span> Verification Nodes Online
+        </span>
+      </div>
+      
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card h-100 p-2 premium-card">
+            <div class="card-body d-flex flex-column align-items-start">
+              <div class="bg-primary bg-opacity-10 text-primary icon-wrapper mb-4">
+                <i class="fa-solid fa-video fs-4"></i>
+              </div>
+              <h5 class="fw-bold text-dark mb-2">Automate Scan Terminal</h5>
+              <p class="text-muted small lh-base flex-grow-1 mb-4">
+                Deploy local hardware media pipelines to perform rapid geometric identification and map structural student vectors against reference indices.
+              </p>
+              <a href="/take-attendance" class="btn btn-premium-primary btn-sm px-4 py-2 w-100 rounded-3 fw-semibold">
+                Launch Recognition System
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card h-100 p-2 premium-card">
+            <div class="card-body d-flex flex-column align-items-start">
+              <div class="bg-success bg-opacity-10 text-success icon-wrapper mb-4">
+                <i class="fa-solid fa-address-book fs-4"></i>
+              </div>
+              <h5 class="fw-bold text-dark mb-2">Biometric Student Profile Registry</h5>
+              <p class="text-muted small lh-base flex-grow-1 mb-4">
+                Conduct full secure profile operations, configure administrative baseline vector fields, and adjust identity metrics within database clusters.
+              </p>
+              <a href="/studentdatabase" class="btn btn-light text-dark border w-100 btn-sm px-4 py-2 rounded-3 fw-semibold">
+                Manage Profile Directory
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card h-100 p-2 premium-card">
+            <div class="card-body d-flex flex-column align-items-start">
+              <div class="bg-dark bg-opacity-10 text-dark icon-wrapper mb-4">
+                <i class="fa-solid fa-folder-open fs-4"></i>
+              </div>
+              <h5 class="fw-bold text-dark mb-2">Centralized Historical Ledger</h5>
+              <p class="text-muted small lh-base flex-grow-1 mb-4">
+                Investigate precise chronological logging metrics, perform analytical queries with customized structural parameters, and export spreadsheets.
+              </p>
+              <a href="/attendance-log" class="btn btn-light text-dark border w-100 btn-sm px-4 py-2 rounded-3 fw-semibold">
+                Audit Logging Ledgers
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-5 bg-white border rounded-4 p-4 p-md-5 shadow-sm" style="border-color: rgba(226,232,240,0.8) !important;">
+      <div class="row align-items-center">
+        <div class="col-lg-7">
+          <span class="badge bg-primary bg-opacity-10 text-primary premium-badge mb-2">System Analysis & Engineering Objectives</span>
+          <h3 class="fw-extrabold text-dark mb-3" style="letter-spacing: -0.02em;">Problem Definitions & Architecture Design</h3>
+          <p class="text-muted small lh-lg mb-4">
+            Traditional roll-call processes consume massive intervals of academic instruction time, are heavily susceptible to proxy vulnerabilities, and generate disjointed log indices that make administrative oversight highly complex. SAMS resolves these failure points by deploying an automated checking framework.
+          </p>
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <div class="p-3 bg-light rounded-3 border">
+                <h6 class="fw-bold text-dark small mb-2"><i class="fa-solid fa-circle-exclamation text-danger me-2"></i>Target Vulnerabilities</h6>
+                <p class="text-muted extra-small mb-0 row-gap-1 d-flex flex-column" style="font-size: 0.8rem;">
+                  <span>• Severe Class-Time Fraud</span>
+                  <span>• Disjointed Record Summarization</span>
+                  <span>• Spoofing & Identity Manipulation</span>
+                </p>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="p-3 bg-light rounded-3 border">
+                <h6 class="fw-bold text-dark small mb-2"><i class="fa-solid fa-bullseye text-success me-2"></i>Project Milestones</h6>
+                <p class="text-muted extra-small mb-0 row-gap-1 d-flex flex-column" style="font-size: 0.8rem;">
+                  <span>• Recognition Processing under &lt; 2 Seconds</span>
+                  <span>• High Accuracy in Controlled Sandbox Environments</span>
+                  <span>• Robust Mathematical Liveness Verification</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 mt-4 mt-lg-0">
+          <div class="p-4 bg-light rounded-4 border">
+            <h6 class="fw-bold text-dark mb-1 d-flex align-items-center gap-2 small">
+              <i class="fa-solid fa-shield-halved text-primary"></i> Anti-Spoofing & Liveness Integrity
+            </h6>
+            <p class="text-muted extra-small mb-3" style="font-size: 0.78rem;">
+              To prevent basic screen or image-based credential falsification, the scanning system deploys an implementation tracking standard biometric patterns.
+            </p>
+            <div class="bg-white p-3 rounded-3 border mb-0">
+              <p class="text-dark small fw-bold mb-1" style="font-size: 0.8rem;">Eye Aspect Ratio (EAR) Formula Tracking</p>
+              <p class="text-muted mb-0 extra-small lh-base" style="font-size: 0.75rem;">
+                By monitoring the ratio of distance matrices between coordinates mapped across vertical and horizontal facial landmarks, real-time blink verification is achieved natively inside the device container.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="row g-4 pt-2">
+      <div class="col-lg-4">
+        <div class="bg-white p-4 rounded-4 border h-100 shadow-sm" style="border-color: rgba(226,232,240,0.8) !important;">
+          <h3 class="h6 fw-extrabold mb-4 text-dark tracking-wider-custom text-uppercase pb-2 border-bottom">
+            Pipeline Progression Stages
+          </h3>
+          <div class="d-flex flex-column gap-4">
+            <div class="step-timeline-item">
+              <div class="step-number">01</div>
+              <h6 class="fw-bold text-dark mb-1" style="font-size: 0.9rem;">Admin Structural Registration</h6>
+              <p class="text-muted small mb-0 lh-base">Administrators register basic student identifiers and baseline profile references safely mapped via persistent server routing mechanisms.</p>
+            </div>
+            <div class="step-timeline-item">
+              <div class="step-number">02</div>
+              <h6 class="fw-bold text-dark mb-1" style="font-size: 0.9rem;">Local Real-Time Interception</h6>
+              <p class="text-muted small mb-0 lh-base">Device streaming matrices capture coordinates locally, extracting multi-point vectors instantly inside browser logic frameworks.</p>
+            </div>
+            <div class="step-timeline-item">
+              <div class="step-number">03</div>
+              <h6 class="fw-bold text-dark mb-1" style="font-size: 0.9rem;">Euclidean Vector Verification</h6>
+              <p class="text-muted small mb-0 lh-base"> Extracted 128-dimensional floating point values undergo verification checks against structured records to prevent redundant entries.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-4">
+        <div class="bg-white p-4 rounded-4 border h-100 d-flex flex-column shadow-sm" style="border-color: rgba(226,232,240,0.8) !important;">
+          <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+            <h3 class="h6 fw-extrabold text-dark tracking-wider-custom text-uppercase mb-0">
+              Live Verification Logs
+            </h3>
+            <a href="/attendance-log" class="btn btn-xs btn-link text-primary p-0 fw-bold text-decoration-none small">View Master Ledger</a>
+          </div>
+          <div class="flex-grow-1 overflow-auto" style="max-height: 290px;">
+            <div id="recentActivity" class="list-group list-group-flush">
+              <div class="text-center text-muted py-4 small">Synchronizing core engine nodes...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="bg-white p-4 rounded-4 border h-100 d-flex flex-column justify-content-between shadow-sm" style="border-color: rgba(226,232,240,0.8) !important;">
+          <div>
+            <h3 class="h6 fw-extrabold mb-4 text-dark tracking-wider-custom text-uppercase pb-2 border-bottom">
+              Project Constraints & Scopes
+            </h3>
+            <div class="mb-3">
+              <span class="badge bg-light text-secondary mb-2 premium-badge border">Development Constraints</span>
+              <p class="small fw-semibold text-dark ps-1 mb-1">Controlled Environments Optimization</p>
+              <p class="text-muted extra-small ps-1 mb-0" style="font-size:0.75rem;">System calculations depend significantly on consistent ambient illumination to maintain peak feature distance precision tolerances.</p>
+            </div>
+            <div class="mb-3">
+              <span class="badge bg-light text-secondary mb-2 premium-badge border">Future Blueprint Extensions</span>
+              <p class="small fw-semibold text-dark ps-1 mb-1">Simultaneous Multi-Target Acquisition</p>
+              <p class="text-muted extra-small ps-1 mb-0" style="font-size:0.75rem;">Upcoming architecture iterations intend to enable multi-face coordinate tracking concurrently inside complex tracking frames.</p>
+            </div>
+            <div class="mb-3">
+              <span class="badge bg-light text-secondary mb-2 premium-badge border">Cloud Integration Architecture</span>
+              <p class="small fw-semibold text-dark ps-1 mb-1">Automated Communications Pipeline</p>
+              <p class="text-muted extra-small ps-1 mb-0" style="font-size:0.75rem;">Engineering roadmap provisions automated notifications routed through cross-platform alerts for persistent status visibility.</p>
+            </div>
+          </div>
+          
+          <div class="pt-3 border-top mt-auto">
+            <span class="badge bg-success bg-opacity-10 text-success mb-2 premium-badge border border-success border-opacity-25">Network Infrastructure Layer</span>
+            <div class="d-flex align-items-center justify-content-between ps-1">
+              <span class="small fw-bold text-dark" style="font-size: 0.8rem;">Database Node Synchronization</span>
+              <span class="small text-success fw-bold d-inline-flex align-items-center gap-2" style="font-size: 0.8rem;">
+                <span class="spinner-grow spinner-grow-sm" role="status" style="animation-duration: 1.2s; width: 8px; height: 8px;"></span> Live Connection
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+  async function loadDashboard() {
+    try {
+      const res = await fetch("/api/today-attendance-summary");
+      const data = await res.json();
+
+      document.getElementById("totalStudents").textContent = data.totalStudents || 0;
+      document.getElementById("presentToday").textContent = data.presentToday || 0;
+      document.getElementById("absentToday").textContent = data.absentToday || 0;
+      document.getElementById("attendanceRate").textContent = (data.attendanceRate || 0) + "%";
+
+      const container = document.getElementById("recentActivity");
+      container.innerHTML = "";
+
+      if (data.recentActivity && data.recentActivity.length > 0) {
+        data.recentActivity.forEach(activity => {
+          const div = document.createElement("div");
+          div.className = "list-group-item d-flex justify-content-between align-items-center px-0 py-2 border-0 border-bottom border-light bg-transparent";
+          div.innerHTML = `
+            <div>
+              <span class="fw-bold text-dark d-block small" style="font-size:0.85rem;">${activity.studentName}</span>
+              <small class="text-muted extra-small" style="font-size: 0.72rem;"><i class="fa-regular fa-clock me-1"></i>${new Date(activity.time).toLocaleTimeString()}</small>
+            </div>
+            <span class="badge bg-success bg-opacity-10 text-success rounded-pill fw-bold" style="font-size: 0.65rem; padding: 4px 10px;">Authenticated Match</span>
+          `;
+          container.appendChild(div);
+        });
+      } else {
+        container.innerHTML = `
+          <div class="text-center text-muted py-5 bg-light rounded-3 border border-dashed">
+            <i class="fa-solid fa-fingerprint d-block fs-3 mb-2 text-muted opacity-50"></i>
+            <span class="small fw-medium">No tracking instances registered within current parameter matrices.</span>
+          </div>`;
+      }
+    } catch (err) {
+      console.error("Critical telemetry aggregation failure:", err);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", loadDashboard);
+  </script>
+
+  <%- include("partials/footer") %>
+
+</body>
+</html>

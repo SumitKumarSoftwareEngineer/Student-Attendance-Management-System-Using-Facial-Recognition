@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= student.name %> - Profile Architecture</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      background-color: #f8fafc;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.02) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(15, 23, 42, 0.015) 0px, transparent 50%);
+      background-attachment: fixed;
+      color: #334155;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      letter-spacing: -0.01em;
+    }
+
+    .page-wrapper {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+    }
+    
+    /* Core Architecture Structural Elements */
+    .premium-profile-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(226, 232, 240, 0.8) !important;
+      border-radius: 24px !important;
+      box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.02), 0 2px 4px -1px rgba(15, 23, 42, 0.01);
+    }
+
+    /* Reference Frame Geometric Shutter Layer */
+    .profile-img-container {
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+      position: relative;
+      background: #f1f5f9;
+    }
+    
+    .profile-img-container::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(180deg, transparent 60%, rgba(15, 23, 42, 0.55) 100%);
+      opacity: 0.85;
+    }
+
+    /* Advanced Interactive Telemetry Cards */
+    .stat-card {
+      background: #ffffff;
+      border: 1px solid rgba(226, 232, 240, 0.8) !important;
+      border-radius: 20px !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.01);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .stat-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(37, 99, 235, 0.3) !important;
+      box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.04) !important;
+    }
+
+    /* Metric Information Fields */
+    .info-item {
+      padding: 14px 18px;
+      background: rgba(248, 250, 252, 0.7);
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      transition: all 0.3s ease;
+    }
+    .info-item:hover {
+      background: #ffffff;
+      border-color: rgba(37, 99, 235, 0.25);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.03);
+    }
+
+    /* Fine Labels Typography styling */
+    .premium-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #64748b;
+      margin-bottom: 2px;
+      display: block;
+    }
+
+    .table-responsive {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+
+    .custom-table thead tr {
+      background-color: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .custom-table th {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #475569;
+      padding: 16px 20px;
+    }
+    .custom-table td {
+      padding: 16px 20px;
+      font-size: 0.88rem;
+      color: #334155;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .custom-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .btn-premium-back {
+      background: #ffffff;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 12px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+      transition: all 0.2s ease;
+    }
+    .btn-premium-back:hover {
+      background: #f8fafc;
+      color: #0f172a;
+      border-color: #cbd5e1;
+    }
+    
+    .panel-header-blur {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(8px);
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+  
+  <%- include("partials/header") %>
+
+  <main class="container my-5 py-2" style="max-width: 1160px;">
+    
+    <!-- Navigation Top Controller Panel -->
+    <div class="d-flex justify-content-between align-items-center mb-4 animate__animated animate__fadeIn">
+      <a href="/studentdatabase" class="btn btn-premium-back px-4 py-2 d-inline-flex align-items-center gap-2">
+        <i class="fa-solid fa-arrow-left text-primary small"></i> Directory Registry
+      </a>
+      <span class="badge bg-white text-dark border rounded-pill px-3 py-2 fw-semibold shadow-sm small d-flex align-items-center gap-2 panel-header-blur">
+        <span class="d-inline-block rounded-circle bg-success" style="width:6px; height:6px;"></span> Identity Sync Confirmed
+      </span>
+    </div>
+
+    <!-- Main Structural Core Configurations Split -->
+    <div class="row g-4">
+      
+      <!-- Left Column: Biometric Profile Image Visualizers -->
+      <div class="col-lg-4">
+        <div class="card premium-profile-card border-0 p-3 bg-white shadow-sm">
+          <div class="profile-img-container mb-3">
+            <img src="<%= student.photo ? '/uploaded-photos/' + student.photo : '/fallback.png' %>" 
+                 class="w-100" style="height: 340px; object-fit: cover;" alt="<%= student.name %> Face Reference Model">
+          </div>
+          
+          <div class="card-body p-2 text-center">
+            <h2 class="h5 fw-extrabold text-dark mb-1 tracking-tight" style="font-size: 1.3rem; letter-spacing: -0.01em;"><%= student.name %></h2>
+            
+            <div class="d-flex flex-wrap justify-content-center gap-2 mb-4 mt-3">
+              <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-1.5 rounded-3 small fw-bold" style="font-size: 0.72rem;">
+                <%= student.course || "B.Tech" %>
+              </span>
+              <span class="badge bg-info bg-opacity-10 text-info px-3 py-1.5 rounded-3 small fw-bold" style="font-size: 0.72rem;">
+                <%= student.branch || "—" %>
+              </span>
+              <span class="badge bg-secondary bg-opacity-10 text-secondary px-3 py-1.5 rounded-3 small fw-bold" style="font-size: 0.72rem;">
+                Semester <%= student.semester || "—" %>
+              </span>
+            </div>
+
+            <hr class="text-muted opacity-25 my-4">
+
+            <div class="text-start px-1 d-flex flex-column gap-2">
+              <% if (student.rollNumber) { %>
+                <div class="info-item d-flex align-items-center">
+                  <div class="bg-primary bg-opacity-10 rounded-3 p-2 text-primary me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                    <i class="fa-solid fa-fingerprint small"></i>
+                  </div>
+                  <div>
+                    <small class="premium-label">Roster Reference Key</small>
+                    <span class="fw-bold text-dark font-monospace" style="font-size:0.88rem;"><%= student.rollNumber %></span>
+                  </div>
+                </div>
+              <% } %>
+
+              <% if (student.branch) { %>
+                <div class="info-item d-flex align-items-center">
+                  <div class="bg-success bg-opacity-10 rounded-3 p-2 text-success me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                    <i class="fa-solid fa-graduation-cap small"></i>
+                  </div>
+                  <div>
+                    <small class="premium-label">Academic Department</small>
+                    <span class="fw-semibold text-secondary" style="font-size:0.88rem;"><%= student.branch %></span>
+                  </div>
+                </div>
+              <% } %>
+
+              <% if (student.semester) { %>
+                <div class="info-item d-flex align-items-center">
+                  <div class="bg-dark bg-opacity-10 rounded-3 p-2 text-dark me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                    <i class="fa-solid fa-layer-group small"></i>
+                  </div>
+                  <div>
+                    <small class="premium-label">Current Evaluation Term</small>
+                    <span class="fw-semibold text-secondary" style="font-size:0.88rem;">Semester <%= student.semester %></span>
+                  </div>
+                </div>
+              <% } %>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Centralized Active Attendance Logs Ledger -->
+      <div class="col-lg-8">
+        
+        <h5 class="fw-extrabold text-dark text-uppercase tracking-wider mb-3" style="font-size: 0.78rem; letter-spacing:0.06em;">
+          <i class="fa-solid fa-chart-bar text-primary me-2"></i>Biometric Telemetry Matrix Summary
+        </h5>
+        
+        <!-- Live Analytics Gauges Top Panel -->
+        <div class="row g-3 mb-4">
+          <div class="col-sm-4">
+            <div class="card stat-card shadow-sm p-3 text-center h-100">
+              <div class="rounded-circle bg-success bg-opacity-10 text-success mx-auto d-flex align-items-center justify-content-center mb-2" style="width: 44px; height: 44px;">
+                <i class="fa-solid fa-percent fw-bold small"></i>
+              </div>
+              <h3 class="fw-extrabold text-success mb-0" style="letter-spacing: -0.02em;"><%= attendancePercentage %>%</h3>
+              <small class="text-muted fw-bold tracking-wider text-uppercase mt-1 d-block" style="font-size:0.68rem;">Consistency Rating</small>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <div class="card stat-card shadow-sm p-3 text-center h-100">
+              <div class="rounded-circle bg-primary bg-opacity-10 text-primary mx-auto d-flex align-items-center justify-content-center mb-2" style="width: 44px; height: 44px;">
+                <i class="fa-solid fa-circle-check small"></i>
+              </div>
+              <h3 class="fw-extrabold text-dark mb-0" style="letter-spacing: -0.02em;"><%= presentDays %></h3>
+              <small class="text-muted fw-bold tracking-wider text-uppercase mt-1 d-block" style="font-size:0.68rem;">Verified Check-Ins</small>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <div class="card stat-card shadow-sm p-3 text-center h-100">
+              <div class="rounded-circle bg-dark bg-opacity-10 text-dark mx-auto d-flex align-items-center justify-content-center mb-2" style="width: 44px; height: 44px;">
+                <i class="fa-solid fa-timeline small"></i>
+              </div>
+              <h3 class="fw-extrabold text-dark mb-0" style="letter-spacing: -0.02em;"><%= totalDays %></h3>
+              <small class="text-muted fw-bold tracking-wider text-uppercase mt-1 d-block" style="font-size:0.68rem;">Total Run Sessions</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logging Streams Title Area -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-extrabold text-dark text-uppercase tracking-wider mb-0" style="font-size: 0.78rem; letter-spacing:0.06em;">
+            <i class="fa-solid fa-clock-rotate-left text-primary me-2"></i>Biometric Stream Logs
+          </h5>
+          <span class="small text-muted fw-semibold" style="font-size: 0.78rem;">Chronological Order</span>
+        </div>
+
+        <!-- Central Table Framework Card Container -->
+        <div class="card premium-profile-card border-0 shadow-sm bg-white p-2">
+          <div class="table-responsive">
+            <table class="table align-middle table-hover custom-table mb-0">
+              <thead>
+                <tr>
+                  <th class="ps-3">Verification Date</th>
+                  <th>Status Indices</th>
+                  <th class="pe-3">Sensor Match Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (attendanceHistory && attendanceHistory.length > 0) { %>
+                  <% attendanceHistory.forEach(log => { %>
+                    <tr>
+                      <td class="ps-3 fw-semibold text-dark">
+                        <i class="fa-regular fa-calendar-check text-muted me-2 small"></i>
+                        <%= new Date(log.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) %>
+                      </td>
+                      <td>
+                        <% if (log.status === 'Present') { %>
+                          <span class="badge bg-success bg-opacity-10 text-success rounded-pill fw-bold px-3 py-1.5" style="font-size:0.68rem; letter-spacing: 0.02em; text-transform: uppercase;">
+                            <span class="d-inline-block rounded-circle bg-success me-1.5" style="width:5px; height:5px; vertical-align:middle;"></span><%= log.status %>
+                          </span>
+                        <% } else { %>
+                          <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill fw-bold px-3 py-1.5" style="font-size:0.68rem; letter-spacing: 0.02em; text-transform: uppercase;">
+                            <span class="d-inline-block rounded-circle bg-danger me-1.5" style="width:5px; height:5px; vertical-align:middle;"></span><%= log.status %>
+                          </span>
+                        <% } %>
+                      </td>
+                      <td class="pe-3 text-secondary font-monospace small fw-medium">
+                        <i class="fa-regular fa-clock text-muted me-1.5 small"></i>
+                        <%= new Date(log.createdAt || log.date).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true }) %>
+                      </td>
+                    </tr>
+                  <% }) %>
+                <% } else { %>
+                  <!-- Empty Array Fallback Elements -->
+                  <tr>
+                    <td colspan="3" class="text-center py-5">
+                      <div class="text-center py-4">
+                        <div class="bg-light text-muted mx-auto d-flex align-items-center justify-content-center bg-opacity-60 rounded-circle mb-3" style="width: 52px; height: 52px;">
+                          <i class="fa-solid fa-server opacity-50 fs-5"></i>
+                        </div>
+                        <h6 class="fw-bold text-dark mb-1" style="font-size: 0.92rem;">No Telemetry Sequences Compiled</h6>
+                        <p class="text-muted small mb-0 mx-auto" style="max-width: 340px;">This identity model does not yet contain recorded checkpoints within the runtime database array.</p>
+                      </div>
+                    </td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <%- include("partials/footer") %>
+
+</div>
+
+</body>
+</html>

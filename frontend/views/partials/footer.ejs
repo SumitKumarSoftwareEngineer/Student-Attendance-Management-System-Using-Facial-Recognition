@@ -1,0 +1,60 @@
+<div style="clear: both;"></div>
+
+<style>
+  /* 1. Force the HTML and Body elements to stretch to full window height */
+  html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 2. Target the main content area (whatever comes before the footer) and make it fill all empty vertical space */
+  body > *:not(footer):not(script) {
+    flex: 1 0 auto;
+  }
+
+  /* 3. Premium Sticky Footer Styling */
+  .custom-sticky-footer {
+    flex-shrink: 0;
+    background: #0f172a;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 2rem 0;
+    text-align: center;
+    width: 100%;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  .footer-copyright {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.88rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  .footer-tech-stack {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+
+  .text-gradient-accent {
+    background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+  }
+</style>
+
+<footer class="custom-sticky-footer">
+  <div class="container">
+    <p class="footer-copyright mb-2">
+      &copy; 2026 Smart Student Attendance Management System (SAMS). 
+    </p>
+    <div class="footer-tech-stack">
+      All rights reserved.
+    </div>
+  </div>
+</footer>
